@@ -6,4 +6,4 @@ const AddOnsSchema = new Schema({
   Price: String,
 });
 
-module.exports = model("place", PlaceSchema);
+module.exports = model("AddOns", AddOnsSchema);

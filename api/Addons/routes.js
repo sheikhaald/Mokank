@@ -1,4 +1,4 @@
-import { createAddOns, deleteAddOns, getAllAddOns } from "./controllers";
+const { createAddOns, deleteAddOns, getAllAddOns } = require("./controllers");
 
 const express = require("express");
 const router = express.Router();
@@ -8,4 +8,4 @@ router.get("/", getAllAddOns);
 router.post("/", upload.single("image"), createAddOns);
 router.delete("/", deleteAddOns);
 
-export default router;
+module.exports = router;
