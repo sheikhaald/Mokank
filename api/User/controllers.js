@@ -17,7 +17,21 @@ const generateToken = (user) => {
   });
   return token;
 };
-
+const register = async (req, res, next) => {
+  try {
+    const hassMyPw = await hashPassword(req.body.password);
+    req.body.password = hassMyPw;
+    if (req.file) {
+      req.body.image = req.file.path;
+    }
+    const newUser = await User.create(req.body);
+    const token = generateToken(newUser);
+    console.log(token);
+    return res.status(201).json({ token });
+  } catch (err) {
+    next(err);
+  }
+};
 const createUser = async (req, res, next) => {
   try {
     req.body.password = await hashPassword(req.body.password);
@@ -64,4 +78,5 @@ module.exports = {
   createUser,
   hashPassword,
   generateToken,
+  register,
 };

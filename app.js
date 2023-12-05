@@ -4,7 +4,10 @@ const connectDB = require("./database");
 const { NotFound } = require("./middleware/NotFound");
 const { ErrorHandler } = require("./middleware/ErrorHandler");
 const localStrategy = require("./middleware/passport");
+const sponsorshipRouter = require("./api/Sponsorship/routes");
+const likesRouter = require("./api/Like/routes");
 const userRouter = require("./api/User/routes");
+const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
 require("dotenv").config();
@@ -14,8 +17,12 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.use("/user", userRouter);
+app.use("/media", express.static(path.join(__dirname, "media")));
+app.use(passport.initialize());
 
+app.use("/", userRouter);
+app.use("/sponsorship", sponsorshipRouter);
+app.use("/likes", likesRouter);
 passport.use("local", localStrategy);
 // not found path
 app.use(NotFound);

@@ -1,15 +1,22 @@
 const express = require("express");
-const { getAllUsers, createUser, updateUser, login } = require("./controllers");
 const router = express.Router();
 const passport = require("passport");
 const upload = require("../../middleware/multer");
-router.post("/Register", upload.single("image"), createUser); //Register
+const { register, login, getAllUsers, updateUser } = require("./controllers");
+
+router.param("UserId", async (req, res, next, UserId) => {
+  const user = await findRecipe(UserId, next);
+  req.user = user;
+  next();
+});
+router.post("/register", upload.single("image"), register); //Register
+
 router.post(
   "/login",
   passport.authenticate("local", { session: false }),
   login
 );
-router.get("/", getAllUsers);
-router.put("/", updateUser);
+router.get("/get", getAllUsers);
+router.put("/UserId", updateUser);
 
 module.exports = router;
