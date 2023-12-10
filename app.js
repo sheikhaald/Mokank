@@ -17,19 +17,16 @@ const app = express();
 
 app.use(cors());
 app.use(morgan("dev"));
-app.use("/media", express.static(path.join(__dirname, "media")));
-app.use(passport.initialize());
 app.use(express.json());
+app.use(passport.initialize());
+passport.use("local", localStrategy);
 
 app.use("/media", express.static(path.join(__dirname, "media")));
-app.use(passport.initialize());
+app.use("/", userRouter);
 app.use("/place", placeRouter);
 app.use("/addons", addonsRouter);
-
-app.use("/", userRouter);
 app.use("/sponsorship", sponsorshipRouter);
 app.use("/likes", likesRouter);
-passport.use("local", localStrategy);
 // not found path
 app.use(NotFound);
 // error handle
