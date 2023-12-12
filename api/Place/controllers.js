@@ -51,7 +51,7 @@ exports.getOnePlace = async (req, res, next) => {
 
 exports.getAllPlaces = async (req, res, next) => {
   try {
-    const places = await place.find();
+    const places = await Place.find();
     res.status(200).json(places);
   } catch (error) {
     next(error);

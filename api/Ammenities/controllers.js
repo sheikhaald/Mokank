@@ -9,15 +9,11 @@ exports.createAmmenities = async (req, res, next) => {
   }
 };
 
-
-exports.getAllAmmenities = async(req,res,next)=>{
-    try {
-        const ammenities = await ammenities.find();
-        res.status(200).json(ammenities);
-    } catch (error) {
-        next(error)
-    }
-}
-
-
-exports.
+exports.getAllAmmenities = async (req, res, next) => {
+  try {
+    const ammenities = await ammenities.find();
+    res.status(200).json(ammenities);
+  } catch (error) {
+    next(error);
+  }
+};

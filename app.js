@@ -8,6 +8,8 @@ const sponsorshipRouter = require("./api/Sponsorship/routes");
 const likesRouter = require("./api/Like/routes");
 const userRouter = require("./api/User/routes");
 const placeRouter = require("./api/Place/routes");
+const allowedBusiness = require("./api/Allowedbusinesses/routes");
+const businessType = require("./api/BusinessType/routes");
 const addonsRouter = require("./api/Addons/routes");
 const path = require("path");
 const cors = require("cors");
@@ -27,6 +29,8 @@ app.use("/place", placeRouter);
 app.use("/addons", addonsRouter);
 app.use("/sponsorship", sponsorshipRouter);
 app.use("/likes", likesRouter);
+app.use("/allowedBusiness", allowedBusiness);
+app.use("/businessType", businessType);
 // not found path
 app.use(NotFound);
 // error handle

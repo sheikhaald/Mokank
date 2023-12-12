@@ -3,8 +3,9 @@ const { model, Schema } = require("mongoose");
 const UserBusinessSchema = new Schema({
   PlaceName: String,
   PlaceLogo: String,
-  RentPrice: String,
+  RentPrice: Number,
   AllowedBusiness: [{ type: Schema.Types.ObjectId, ref: "allowedBusiness" }],
+  BusinessType: { type: Schema.Types.ObjectId, ref: "businessTypeSchema" },
   PlaceAmmenities: [{ type: Schema.Types.ObjectId, ref: "placeAmmenities" }],
   CommericalLicense: String,
   Description: String,
