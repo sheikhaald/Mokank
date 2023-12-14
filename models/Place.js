@@ -10,7 +10,7 @@ const PlaceSchema = new Schema({
   Description: String,
   // DayFrom: Date,
   // DayTo: Date,
-  placeImages: String,
+  placeImages: [String],
 });
 
 module.exports = model("place", PlaceSchema);

@@ -17,7 +17,11 @@ router.param("PlaceId", async (req, res, next, PlaceId) => {
 });
 
 router.get("/", getAllPlaces);
-router.post("/", upload.single("image"), createplace);
+router.post(
+  "/",
+  upload.fields([{ name: "image", maxCount: 1 }, { name: "placeImages" }]),
+  createplace
+);
 router.put("/:PlaceId", updateplace);
 router.delete("/:PlaceId", detetplace);
 router.get("/:PlaceId", getOnePlace);
