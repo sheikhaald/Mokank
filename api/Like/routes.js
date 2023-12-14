@@ -1,26 +1,24 @@
 const express = require("express");
-const upload = require("../../middleware/multer");
-
 const router = express.Router();
 const {
+  findLike,
+  createLike,
   getAllLikes,
-  LikesUpdate,
-  LikesDelete,
-  LikesCreate,
-  LikesFind,
+  updateLike,
+  getOneLike,
+  deleteLike,
 } = require("./controllers");
 
-router.param("LikesId", async (req, res, next, LikesId) => {
-  const like = await LikesFind(LikesId, next);
+router.param("LikeId", async (req, res, next, LikeId) => {
+  const like = await findLike(LikeId, next);
   req.like = like;
   next();
 });
+
+router.post("/", createLike);
 router.get("/", getAllLikes);
-
-router.post("/", upload.single("image"), LikesCreate);
-
-router.delete("/:LikesId", LikesDelete);
-
-router.put("/:LikesId", LikesUpdate);
+router.put("/:LikeId", updateLike);
+router.delete("/:LikeId", deleteLike);
+router.get("/:LikeId", getOneLike);
 
 module.exports = router;
