@@ -3,11 +3,24 @@ const Place = require("../../models/Place");
 exports.createplace = async (req, res, next) => {
   try {
     if (req.file) {
+      console.log(req.file);
       req.body.image = req.file.path.replace("\\", "/");
     }
+
+    req.body = {
+      image: req.body.info.image,
+      placeImages: req.body.info.placeImages,
+      PlaceName: req.body.info.Title,
+      RentPrice: req.body.info.Price,
+      Description: req.body.info.Description,
+      DayFrom: req.body.info.selectedDates.selectedStartDate,
+      DayTo: req.body.info.selectedDates.selectedEndDate,
+    };
+
     const NewPlace = await Place.create(req.body);
     res.status(200).json(NewPlace);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
