@@ -76,7 +76,6 @@ module.exports = {
   updateUser,
   getAllUsers,
   createUser,
-  hashPassword,
   generateToken,
   register,
 };

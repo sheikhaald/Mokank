@@ -1,8 +1,8 @@
-const AllowedBusiness = require("../../models/AllowedBusiness");
+const AllowedBusinesses = require("../../models/AllowedBusinesses");
 
 exports.createAllowedBusiness = async (req, res, next) => {
   try {
-    const NewAllowedBusiness = await AllowedBusiness.create(req.body);
+    const NewAllowedBusiness = await AllowedBusinesses.create(req.body);
     res.status(200).json(NewAllowedBusiness);
   } catch (error) {
     next(error);
