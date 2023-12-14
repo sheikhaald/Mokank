@@ -19,8 +19,8 @@ const generateToken = (user) => {
 };
 const register = async (req, res, next) => {
   try {
-    const hassMyPw = await hashPassWord(req.body.password);
-    req.body.password = hassMyPw;
+    const hashMyPw = await hashPassword(req.body.password);
+    req.body.password = hashMyPw;
     if (req.file) {
       req.body.image = req.file.path;
     }
