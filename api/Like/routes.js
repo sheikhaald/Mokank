@@ -15,6 +15,7 @@ router.param("LikesId", async (req, res, next, LikesId) => {
   req.like = like;
   next();
 });
+
 router.get("/", getAllLikes);
 
 router.post("/", upload.single("image"), LikesCreate);

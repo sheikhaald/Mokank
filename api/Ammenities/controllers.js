@@ -1,9 +1,9 @@
 const Ammenities = require("../../models/Ammenities");
 
-exports.createAmmenities = async (req, res, next) => {
+exports.createAmmenity = async (req, res, next) => {
   try {
-    const ammenities = await Ammenities.create();
-    res.status(200).json(ammenities);
+    const newAmmenity = await Ammenities.create(req.body);
+    res.status(201).json(newAmmenity);
   } catch (error) {
     next(error);
   }
@@ -11,8 +11,25 @@ exports.createAmmenities = async (req, res, next) => {
 
 exports.getAllAmmenities = async (req, res, next) => {
   try {
-    const ammenities = await ammenities.find();
+    const ammenities = await Ammenities.find();
     res.status(200).json(ammenities);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateAmmenity = async (req, res, next) => {
+  try {
+    await req.like.updateOne(req.body);
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
+exports.ammenityDelete = async (req, res, next) => {
+  try {
+    await req.like.deleteOne();
+    res.status(204).end();
   } catch (error) {
     next(error);
   }

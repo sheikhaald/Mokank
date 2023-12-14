@@ -13,6 +13,7 @@ router.param("BusinessId", async (req, res, next, BusinessId) => {
   req.business = business;
   next();
 });
+
 router.post("/create", createAllowedBusiness);
 router.get("/get", getAllAllowedBusinesss);
 router.put("/:BusinessId", updateAllowedBusiness);
