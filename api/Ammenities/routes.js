@@ -1,24 +1,15 @@
-const express = require("express");
 const {
-  createAmmenities,
   getAllAmmenities,
-  updateAmmenities,
-  deleteAmmenities,
-  getOneAmmenities,
-  findAmmenities,
+  createAmmenity,
+  updateAmmenity,
+  ammenityDelete,
 } = require("./controllers");
+const express = require("express");
 const router = express.Router();
 
-router.param("AmmenitiesId", async (req, res, next, AmmenitiesId) => {
-  const ammenities = await findAmmenities(AmmenitiesId, next);
-  req.ammenities = ammenities;
-  next();
-});
-
-router.post("/", createAmmenities);
-router.get("/", getAllAmmenities);
-router.put("/:AmmenitiesId", updateAmmenities);
-router.delete("/:AmmenitiesId", deleteAmmenities);
-router.get("/:AmmenitiesId", getOneAmmenities);
+router.get("/get", getAllAmmenities);
+router.post("/create", createAmmenity);
+router.put("/update/:ammenitie_Id", updateAmmenity);
+router.delete("/:ammenitie_Id", ammenityDelete);
 
 module.exports = router;

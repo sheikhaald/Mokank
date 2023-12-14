@@ -15,7 +15,6 @@ router.param("LikeId", async (req, res, next, LikeId) => {
   next();
 });
 
-router.post("/", createLike);
 router.get("/", getAllLikes);
 router.put("/:LikeId", updateLike);
 router.delete("/:LikeId", deleteLike);

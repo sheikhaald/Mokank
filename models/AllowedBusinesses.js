@@ -1,7 +1,9 @@
 const { model, Schema } = require("mongoose");
 
-const AllowedBusinesses = new Schema({
-  text: [String],
+const AllowedBusinessSchema = new Schema({
+  name: String,
+  icon: String,
+  Userbusiness: [{ type: Schema.Types.ObjectId, ref: "userbusiness" }],
 });
 
-module.exports = model("allowed", AllowedBusinesses);
+module.exports = model("allowedBusiness", AllowedBusinessSchema);
