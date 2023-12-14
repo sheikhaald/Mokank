@@ -1,43 +1,34 @@
 const Like = require("../../models/Like");
 
-exports.getAllLikes = async (req, res, next) => {
+exports.createLike = async (req, res, next) => {
   try {
-    const likes = await Like.find();
-    res.status(201).json(likes);
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.LikesFind = async (LikesId, next) => {
-  try {
-    const like = await Like.findById(LikesId);
-    if (like) {
-      return like;
-    }
-    next("not found");
+    const NewLike = await Like.create(req.body);
+    res.status(200).json(NewLike);
   } catch (error) {
     next(error);
   }
 };
 
-exports.LikesCreate = async (req, res, next) => {
+exports.updateLike = async (req, res, next) => {
   try {
-    if (req.file) {
-      req.body.image = req.file.path.replace("\\", "/");
-    }
-
-    const newLike = await Like.create(req.body);
-    res.status(201).json(newLike);
+    await req.like.updateOne(req.body);
+    res.status(204).end();
   } catch (error) {
-    if (error.name === "ValidationError") {
-      return res.status(400).json({ error: error.message });
-    }
     next(error);
   }
 };
 
-exports.LikesDelete = async (req, res, next) => {
+exports.findLike = async (LikeId, next) => {
+  try {
+    const like = await Like.findById(LikeId);
+    if (like) return like;
+    next({ message: "Like not found", status: 404 });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteLike = async (req, res, next) => {
   try {
     await req.like.deleteOne();
     res.status(204).end();
@@ -46,10 +37,19 @@ exports.LikesDelete = async (req, res, next) => {
   }
 };
 
-exports.LikesUpdate = async (req, res, next) => {
+exports.getOneLike = async (req, res, next) => {
   try {
-    await req.like.updateOne(req.body);
-    res.status(204).end();
+    const like = await req.like;
+    res.status(200).json(like);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getAllLikes = async (req, res, next) => {
+  try {
+    const like = await like.find();
+    res.status(200).json(like);
   } catch (error) {
     next(error);
   }

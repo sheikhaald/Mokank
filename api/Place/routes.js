@@ -7,7 +7,7 @@ const {
   getAllPlaces,
   updateplace,
   getOnePlace,
-  detetplace,
+  deleteplace,
 } = require("./controllers");
 
 router.param("PlaceId", async (req, res, next, PlaceId) => {
@@ -23,7 +23,7 @@ router.post(
   createplace
 );
 router.put("/:PlaceId", updateplace);
-router.delete("/:PlaceId", detetplace);
+router.delete("/:PlaceId", deleteplace);
 router.get("/:PlaceId", getOnePlace);
 
 module.exports = router;

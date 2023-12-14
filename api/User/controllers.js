@@ -3,7 +3,7 @@ const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const hashPassword = async (password) => {
+const hashPassWord = async (password) => {
   return bcrypt.hash(password, 10);
 };
 
@@ -76,7 +76,6 @@ module.exports = {
   updateUser,
   getAllUsers,
   createUser,
-  hashPassword,
   generateToken,
   register,
 };

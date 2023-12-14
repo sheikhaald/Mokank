@@ -40,7 +40,7 @@ exports.findplace = async (PlaceId, next) => {
   }
 };
 
-exports.detetplace = async (req, res, next) => {
+exports.deleteplace = async (req, res, next) => {
   try {
     await req.place.deleteOne();
     res.status(204).end();
@@ -62,6 +62,28 @@ exports.getAllPlaces = async (req, res, next) => {
   try {
     const places = await Place.find();
     res.status(200).json(places);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.addPlaceToUser = async (req, res, next) => {
+  try {
+    await req.place.updateOne({ $push: { users: req.users } });
+    await req.users.updateOne({ $push: { place: req.place } });
+
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.addPlaceToBusinessUser = async (req, res, next) => {
+  try {
+    await req.place.updateOne({ $push: { BusinessUser: req.BusinessUser } });
+    await req.BusinessUser.updateOne({ $push: { place: req.place } });
+
+    res.status(204).end();
   } catch (error) {
     next(error);
   }
