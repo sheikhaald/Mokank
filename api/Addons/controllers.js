@@ -20,6 +20,15 @@ exports.getAllAddOns = async (req, res, next) => {
   }
 };
 
+exports.getOneAddOns = async (req, res, next) => {
+  try {
+    const addons = await req.addons;
+    res.status(200).json(addons);
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.deleteAddOns = async (req, res, next) => {
   try {
     await req.addons.deleteOne();
