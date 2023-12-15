@@ -8,6 +8,14 @@ exports.getAllsponsorships = async (req, res, next) => {
     next(err);
   }
 };
+exports.getLasSponsor = async (req, res, next) => {
+  try {
+    const sponsor = await Sponsorship.findOne().sort({ _id: -1 }).limit(1);
+    res.status(201).json(sponsor);
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.sponsorshipFind = async (sponsorId, next) => {
   try {

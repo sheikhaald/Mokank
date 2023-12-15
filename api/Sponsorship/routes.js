@@ -8,6 +8,7 @@ const {
   sponsorshipDelete,
   sponsorshipCreate,
   sponsorshipFind,
+  getLasSponsor,
 } = require("./controllers");
 
 router.param("sponsorId", async (req, res, next, sponsorId) => {
@@ -16,6 +17,8 @@ router.param("sponsorId", async (req, res, next, sponsorId) => {
   next();
 });
 router.get("/", getAllsponsorships);
+
+router.get("/last", getLasSponsor);
 
 router.post("/", upload.single("image"), sponsorshipCreate);
 
