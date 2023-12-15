@@ -37,7 +37,7 @@ app.use(express.json());
 passport.use("local", localStrategy);
 
 app.use("/media", express.static(path.join(__dirname, "media")));
-app.use("/user", userRouter);
+app.use("/", userRouter);
 app.use("/place", placeRouter);
 app.use("/addons", addonsRouter);
 // app.use("/sponsorship", sponsorshipRouter);
