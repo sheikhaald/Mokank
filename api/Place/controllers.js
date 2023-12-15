@@ -2,13 +2,10 @@ const Place = require("../../models/Place");
 
 exports.bookPlace = async (req, res, next) => {
   try {
-    console.log("object");
     const { placeId } = req.params;
     const place = await Place.findById(placeId);
     await req.user.updateOne({ $push: { bookedPlaces: place._id } });
-    await place.updateOne({
-      $set: { bookedBy: req.user._id, booked: true },
-    });
+    await place.updateOne({ bookedBy: req.user._id, booked: true });
     res.status(204).end();
   } catch (error) {
     next(error);
