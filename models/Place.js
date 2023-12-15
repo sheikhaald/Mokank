@@ -9,6 +9,7 @@ const PlaceSchema = new Schema({
   endDate: { type: String, required: false, unique: true },
   businessUser: [{ type: Schema.Types.ObjectId, ref: "businessuser" }],
   user: [{ type: Schema.Types.ObjectId, ref: "user" }],
+  booked: { type: Boolean, default: false },
 
   allowedBusiness: [{ type: Schema.Types.ObjectId, ref: "allowedBusiness" }],
   businessType: { type: Schema.Types.ObjectId, ref: "businessTypeSchema" },

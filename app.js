@@ -3,7 +3,7 @@ const passport = require("passport");
 const connectDB = require("./database");
 const { NotFound } = require("./middleware/NotFound");
 const { ErrorHandler } = require("./middleware/ErrorHandler");
-const localStrategy = require("./middleware/passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const likesRouter = require("./api/Like/routes");
 const userRouter = require("./api/User/routes");
 const placeRouter = require("./api/Place/routes");
@@ -21,22 +21,9 @@ const app = express();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
-// Router
-// app.use("/place", placeRouter);
-// app.use("/user", userRouter);
-// app.use("/userbusiness", userbusinessRouter);
-// app.use("/addons", addonsRouter);
-// app.use("/address", addressRouter);
-// app.use("/allowed", allowedRouter);
-// app.use("/ammennities", ammennitiesRouter);
-// // app.use("/category", categoryRouter);
-// app.use("/notifications", notificationsRouter);
-// app.use("/chat", chatRouter);
-// app.use("/sponsorship", sponsorshipRouter);
-// app.use("/like", likeRouter);
-
+app.use(passport.initialize());
 passport.use("local", localStrategy);
-
+passport.use(jwtStrategy);
 app.use("/media", express.static(path.join(__dirname, "media")));
 app.use("/user", userRouter);
 app.use("/place", placeRouter);

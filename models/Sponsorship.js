@@ -1,7 +1,8 @@
 const { model, Schema } = require("mongoose");
 
 const SponsorshipSchema = new Schema({
-  text: String,
+  title: String,
+  subTitle: String,
   image: String,
 });
 
