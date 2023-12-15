@@ -52,6 +52,13 @@ const getAllUsers = async (req, res, next) => {
     next(error);
   }
 };
+const getProfile = async (req, res, next) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (error) {
+    next(error);
+  }
+};
 
 const updateUser = async (req, res, next) => {
   try {
@@ -78,4 +85,5 @@ module.exports = {
   createUser,
   generateToken,
   register,
+  getProfile,
 };
