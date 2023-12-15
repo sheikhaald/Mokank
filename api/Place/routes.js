@@ -8,7 +8,10 @@ const {
   updateplace,
   getOnePlace,
   deleteplace,
+  getPlaceDetails,
+  bookPlace,
 } = require("./controllers");
+const passport = require("passport");
 
 router.param("PlaceId", async (req, res, next, PlaceId) => {
   const place = await findplace(PlaceId, next);
@@ -17,12 +20,18 @@ router.param("PlaceId", async (req, res, next, PlaceId) => {
 });
 
 router.get("/", getAllPlaces);
+router.get("/details/:placeId", getPlaceDetails);
 router.post(
   "/",
   upload.fields([{ name: "image", maxCount: 1 }, { name: "placeImages" }]),
   createplace
 );
-router.put("/:PlaceId", updateplace);
+router.put(
+  "/book/:placeId",
+  passport.authenticate("jwt", { session: false }),
+  bookPlace
+);
+router.put("/update/:PlaceId", updateplace);
 router.delete("/:PlaceId", deleteplace);
 router.get("/:PlaceId", getOnePlace);
 

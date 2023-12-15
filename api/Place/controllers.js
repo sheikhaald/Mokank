@@ -1,5 +1,20 @@
 const Place = require("../../models/Place");
 
+exports.bookPlace = async (req, res, next) => {
+  try {
+    console.log("object");
+    const { placeId } = req.params;
+    const place = await Place.findById(placeId);
+    await req.user.updateOne({ $push: { bookedPlaces: place._id } });
+    await place.updateOne({
+      $set: { bookedBy: req.user._id, booked: true },
+    });
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.createplace = async (req, res, next) => {
   try {
     if (req.files) {
@@ -9,8 +24,6 @@ exports.createplace = async (req, res, next) => {
       }
       // req.body.image = req.file.path.replace("\\", "/");
     }
-
-    console.log(req.body);
 
     // console.log(req.body);
     const NewPlace = await Place.create(req.body);
@@ -62,6 +75,15 @@ exports.getAllPlaces = async (req, res, next) => {
   try {
     const places = await Place.find();
     res.status(200).json(places);
+  } catch (error) {
+    next(error);
+  }
+};
+exports.getPlaceDetails = async (req, res, next) => {
+  try {
+    const { placeId } = req.params;
+    const place = await Place.findById(placeId);
+    res.status(200).json(place);
   } catch (error) {
     next(error);
   }
