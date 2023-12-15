@@ -2,12 +2,21 @@ const Place = require("../../models/Place");
 
 exports.createplace = async (req, res, next) => {
   try {
-    if (req.file) {
-      req.body.image = req.file.path.replace("\\", "/");
+    if (req.files) {
+      for (let key in req.files) {
+        if (key == "image") req.body[key] = req.files[key][0].path;
+        else req.body[key] = req.files[key].map((a) => a.path);
+      }
+      // req.body.image = req.file.path.replace("\\", "/");
     }
+
+    console.log(req.body);
+
+    // console.log(req.body);
     const NewPlace = await Place.create(req.body);
     res.status(200).json(NewPlace);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
