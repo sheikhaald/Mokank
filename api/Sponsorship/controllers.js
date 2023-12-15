@@ -10,7 +10,7 @@ exports.getAllsponsorships = async (req, res, next) => {
 };
 exports.getLasSponsor = async (req, res, next) => {
   try {
-    const sponsor = await Sponsorship.findOne().sort({ _id: -1 }).limit(3);
+    const sponsor = await Sponsorship.find().sort({ _id: -1 }).limit(3);
     res.status(201).json(sponsor);
   } catch (err) {
     next(err);
