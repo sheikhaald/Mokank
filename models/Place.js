@@ -10,7 +10,8 @@ const PlaceSchema = new Schema({
   businessUser: [{ type: Schema.Types.ObjectId, ref: "businessuser" }],
   user: [{ type: Schema.Types.ObjectId, ref: "user" }],
   booked: { type: Boolean, default: false },
-
+  bookedBy: { type: Schema.Types.ObjectId, ref: "user" },
+  address: { type: String, default: "kuwait city" },
   allowedBusiness: [{ type: Schema.Types.ObjectId, ref: "allowedBusiness" }],
   businessType: { type: Schema.Types.ObjectId, ref: "businessTypeSchema" },
   placeAmmenities: [{ type: Schema.Types.ObjectId, ref: "placeAmmenities" }],
