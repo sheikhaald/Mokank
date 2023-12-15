@@ -1,12 +1,12 @@
 const { model, Schema } = require("mongoose");
 
 const PlaceSchema = new Schema({
-  title: { type: String, required: true, unique: true },
-  description: { type: String, required: true, unique: true },
-  price: { type: String, required: true, unique: true },
-  image: { type: String, required: false, unique: true },
-  startDate: { type: String, required: false, unique: true },
-  endDate: { type: String, required: false, unique: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  price: { type: String, required: true },
+  image: { type: String, required: false },
+  startDate: { type: String, required: false },
+  endDate: { type: String, required: false },
   businessUser: [{ type: Schema.Types.ObjectId, ref: "businessuser" }],
   user: [{ type: Schema.Types.ObjectId, ref: "user" }],
   booked: { type: Boolean, default: false },

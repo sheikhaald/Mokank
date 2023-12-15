@@ -16,8 +16,10 @@ exports.createplace = async (req, res, next) => {
   try {
     if (req.files) {
       for (let key in req.files) {
-        if (key == "image") req.body[key] = req.files[key][0].path;
-        else req.body[key] = req.files[key].map((a) => a.path);
+        if (key == "image")
+          req.body[key] = req.files[key][0].path.replace("\\", "/");
+        else
+          req.body[key] = req.files[key].map((a) => a.path.replace("\\", "/"));
       }
       // req.body.image = req.file.path.replace("\\", "/");
     }

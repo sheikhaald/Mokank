@@ -34,7 +34,7 @@ const register = async (req, res, next) => {
 };
 const createUser = async (req, res, next) => {
   try {
-    req.body.password = await hashPassword(req.body.password);
+    req.body.password = await hashPassWord(req.body.password);
     const newUser = await User.create(req.body);
     const token = generateToken(newUser);
 
