@@ -12,10 +12,10 @@ const {
 
 router.param("UserId", async (req, res, next, UserId) => {
   const user = await findUser(UserId, next);
-  req.user = user;
+  req.foundUser = user;
   next();
 });
-router.post("/register", upload.single("profileimage"), register); //Register
+router.post("/register", upload.single("profileImage"), register); //Register
 
 router.post(
   "/login",

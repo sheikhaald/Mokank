@@ -26,6 +26,9 @@ exports.createplace = async (req, res, next) => {
 
     // console.log(req.body);
     const NewPlace = await Place.create(req.body);
+
+    await req.user.updateOne({ $push: { createdPlaces: NewPlace._id } });
+    await NewPlace.updateOne({ businessUser: req.user._id });
     res.status(200).json(NewPlace);
   } catch (error) {
     console.log(error);

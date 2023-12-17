@@ -19,10 +19,16 @@ const generateToken = (user) => {
 };
 const register = async (req, res, next) => {
   try {
+    console.log(req.body);
     const hashMyPw = await hashPassWord(req.body.password);
     req.body.password = hashMyPw;
+    console.log("file");
+    console.log(req.files);
+    console.log(req.file);
     if (req.file) {
-      req.body.image = req.file.path;
+      console.log("hi");
+      console.log(req.file);
+      req.body.profileimage = req.file.path.replace("\\", "/");
     }
     const newUser = await User.create(req.body);
     const token = generateToken(newUser);
@@ -54,7 +60,10 @@ const getAllUsers = async (req, res, next) => {
 };
 const getProfile = async (req, res, next) => {
   try {
-    res.status(200).json(req.user);
+    const user = await User.findById(req.user._id)
+      .populate("createdPlaces bookedPlaces")
+      .select("-password");
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }

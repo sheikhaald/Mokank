@@ -23,6 +23,7 @@ router.get("/", getAllPlaces);
 router.get("/details/:placeId", getPlaceDetails);
 router.post(
   "/",
+  passport.authenticate("jwt", { session: false }),
   upload.fields([{ name: "image", maxCount: 1 }, { name: "placeImages" }]),
   createplace
 );
