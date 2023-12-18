@@ -28,7 +28,35 @@ exports.createplace = async (req, res, next) => {
     const NewPlace = await Place.create(req.body);
 
     await req.user.updateOne({ $push: { createdPlaces: NewPlace._id } });
-    await NewPlace.updateOne({ businessUser: req.user._id });
+    await NewPlace.updateOne({
+      businessUser: req.user._id,
+      allowedBusiness: req.body.selectedAllowedBusinesses,
+      businessType: req.body.selectedType,
+      placeAmmenities: req.body.selectedAmenities,
+    });
+
+    // req.body.selectedAllowedBusinesses.forEach((element) => {
+    //   NewPlace.updateOne({
+    //     $push: {
+    //       allowedBusiness: element,
+    //     },
+    //   });
+    // });
+    // req.body.selectedType.forEach((element) => {
+    //   NewPlace.updateOne({
+    //     $push: {
+    //       businessType: element,
+    //     },
+    //   });
+    // });
+    // req.body.selectedAmenities.forEach((element) => {
+    //   NewPlace.updateOne({
+    //     $push: {
+    //       placeAmmenities: element,
+    //     },
+    //   });
+    // });
+
     res.status(200).json(NewPlace);
   } catch (error) {
     console.log(error);
