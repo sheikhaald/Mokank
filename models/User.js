@@ -7,6 +7,7 @@ const UserSchema = new Schema({
   profileimage: String,
   bookedPlaces: [{ type: Schema.Types.ObjectId, ref: "place" }],
   createdPlaces: [{ type: Schema.Types.ObjectId, ref: "place" }],
+  chats: [{ type: Schema.Types.ObjectId, ref: "chat" }],
 });
 
 module.exports = model("user", UserSchema);

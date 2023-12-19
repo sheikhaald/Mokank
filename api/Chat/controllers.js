@@ -1,55 +1,86 @@
 const Chat = require("../../models/Chat");
+const Member = require("../../models/Member");
+const User = require("../../models/User");
+
+exports.getAllMyChats = async (req, res, next) => {
+  try {
+    const user = await req.user.populate("chats");
+    const chats = user.chats;
+    res.status(200).json(chats);
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.createChat = async (req, res, next) => {
   try {
-    const NewChat = await Chat.create(req.body);
-    res.status(200).json(NewChat);
+    const requester = req.user;
+    const otherUser = req.params.userId;
+    const otherUserObj = await User.findById(otherUser);
+
+    if (!otherUserObj) return next({ status: 404, message: "User not found!" });
+
+    let memberRequester = await Member.findOne({
+      user: requester._id,
+    });
+    let memberOtherUser = await Member.findOne({
+      user: otherUserObj._id,
+    });
+
+    if (!memberRequester) {
+      memberRequester = await Member.create({
+        user: requester._id,
+      });
+    }
+    if (!memberOtherUser) {
+      memberOtherUser = await Member.create({
+        user: otherUserObj._id,
+      });
+    }
+
+    const chats = await Chat.find().populate("members");
+    let chat = chats.find((chat) => {
+      const chatMemberOneFound = chat.members.some((m) => {
+        return m.user.toString() == requester._id.toString();
+      });
+
+      const chatMemberTwoFound = chat.members.some((m) => {
+        return m.user.toString() == otherUserObj._id.toString();
+      });
+      if (chatMemberOneFound && chatMemberTwoFound) {
+        return chat;
+      }
+    });
+
+    if (!chat) {
+      chat = await Chat.create({
+        members: [memberRequester, memberOtherUser],
+      });
+
+      await req.user.updateOne({
+        $push: { chats: chat },
+      });
+    }
+
+    res.status(201).json(chat);
   } catch (error) {
     next(error);
   }
 };
 
-exports.updateChat = async (req, res, next) => {
+exports.getChat = async (req, res, next) => {
   try {
-    await req.chat.updateOne(req.body);
-    res.status(204).end();
-  } catch (error) {
-    next(error);
-  }
-};
+    const chat = await Chat.findById(req.params.chatId)
+      .populate({
+        path: "members",
+        populate: "user",
+      })
+      .populate({
+        path: "msgs",
+        populate: "from",
+      });
 
-exports.findChat = async (ChatId, next) => {
-  try {
-    const chat = await Chat.findById(ChatId);
-    if (chat) return chat;
-    next({ message: "Chat not found", status: 404 });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.deleteChat = async (req, res, next) => {
-  try {
-    await req.chat.deleteOne();
-    res.status(204).end();
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.getOneChat = async (req, res, next) => {
-  try {
-    const chat = await req.chat;
-    res.status(200).json(chat);
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.getAllChats = async (req, res, next) => {
-  try {
-    const chat = await chat.find();
-    res.status(200).json(chat);
+    return res.status(200).json(chat);
   } catch (error) {
     next(error);
   }

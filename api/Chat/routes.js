@@ -1,24 +1,28 @@
 const express = require("express");
 const router = express.Router();
-const {
-  findChat,
-  createChat,
-  getAllChats,
-  updateChat,
-  getOneChat,
-  deleteChat,
-} = require("./controllers");
+const { getAllMyChats, createChat, getChat } = require("./controllers");
+const passport = require("passport");
+const msg = require("../../models/msg");
 
-router.param("ChatId", async (req, res, next, ChatId) => {
-  const chat = await findChat(ChatId, next);
-  req.chat = chat;
-  next();
+router.get(
+  "/myChats",
+  passport.authenticate("jwt", { session: false }),
+  getAllMyChats
+);
+
+router.post(
+  "/create-chat/:userId",
+  passport.authenticate("jwt", { session: false }),
+  createChat
+);
+
+router.get(
+  "/chat/:chatId",
+  passport.authenticate("jwt", { session: false }),
+  getChat
+);
+
+router.get("/test", async (req, res, next) => {
+  return await msg.find();
 });
-
-router.post("/", createChat);
-router.get("/", getAllChats);
-router.put("/:ChatId", updateChat);
-router.delete("/:ChatId", deleteChat);
-router.get("/:ChatId", getOneChat);
-
 module.exports = router;

@@ -1,9 +1,8 @@
 const { model, Schema } = require("mongoose");
 
 const Chat = new Schema({
-  user: [{ type: Schema.Types.ObjectId, ref: "user" }],
-  status: String,
-  message: String,
+  members: [{ type: Schema.Types.ObjectId, ref: "member" }],
+  msgs: [{ type: Schema.Types.ObjectId, ref: "msg" }],
 });
 
 module.exports = model("chat", Chat);

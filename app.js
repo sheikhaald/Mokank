@@ -12,6 +12,7 @@ const businessType = require("./api/BusinessType/routes");
 const addonsRouter = require("./api/Addons/routes");
 const ammenities = require("./api/Ammenities/routes");
 const sponsorshipRouter = require("./api/Sponsorship/routes");
+const chatRouter = require("./api/Chat/routes");
 const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -33,6 +34,7 @@ app.use("/likes", likesRouter);
 app.use("/allowedBusiness", allowedBusiness);
 app.use("/businessType", businessType);
 app.use("/ammenities", ammenities);
+app.use("/chats", chatRouter);
 
 // not found path
 app.use(NotFound);
