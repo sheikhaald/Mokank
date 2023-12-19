@@ -14,7 +14,7 @@ const PlaceSchema = new Schema({
   address: { type: String, default: "kuwait city" },
   allowedBusiness: [{ type: Schema.Types.ObjectId, ref: "allowedBusiness" }],
   businessType: { type: Schema.Types.ObjectId, ref: "businessType" },
-  placeAmmenities: [{ type: Schema.Types.ObjectId, ref: "placeAmmenities" }],
+  placeAmmenities: [{ type: Schema.Types.ObjectId, ref: "ammennities" }],
   // DayFrom: Date,
   // DayTo: Date,
   placeImages: [String],
