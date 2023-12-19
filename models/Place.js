@@ -7,7 +7,7 @@ const PlaceSchema = new Schema({
   image: { type: String, required: false },
   startDate: { type: String, required: false },
   endDate: { type: String, required: false },
-  businessUser: { type: Schema.Types.ObjectId, ref: "businessuser" },
+  businessUser: { type: Schema.Types.ObjectId, ref: "user" },
   // user: [{ type: Schema.Types.ObjectId, ref: "user" }],
   booked: { type: Boolean, default: false },
   bookedBy: { type: Schema.Types.ObjectId, ref: "user" },
