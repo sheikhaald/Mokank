@@ -1,10 +1,18 @@
 const Chat = require("../../models/Chat");
 const Member = require("../../models/Member");
 const User = require("../../models/User");
+const Msg = require("../../models/Msg");
 
 exports.getAllMyChats = async (req, res, next) => {
   try {
-    const user = await req.user.populate("chats");
+    const user = await req.user.populate({
+      path: "chats",
+      populate: {
+        path: "members",
+        populate: "user",
+      },
+    });
+
     const chats = user.chats;
     res.status(200).json(chats);
   } catch (error) {
@@ -60,6 +68,10 @@ exports.createChat = async (req, res, next) => {
       await req.user.updateOne({
         $push: { chats: chat },
       });
+
+      await otherUserObj.updateOne({
+        $push: { chats: chat },
+      });
     }
 
     res.status(201).json(chat);
@@ -81,6 +93,24 @@ exports.getChat = async (req, res, next) => {
       });
 
     return res.status(200).json(chat);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.sendMsg = async (req, res, next) => {
+  try {
+    const msg = await Msg.create({
+      from: req.user._id,
+      chat: req.params.chatId,
+      text: req.body.text,
+    });
+
+    const chat = await Chat.findByIdAndUpdate(req.params.chatId, {
+      $push: { msgs: msg },
+    });
+
+    return res.status(201).json(msg);
   } catch (error) {
     next(error);
   }
