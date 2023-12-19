@@ -112,7 +112,9 @@ exports.getAllPlaces = async (req, res, next) => {
 exports.getPlaceDetails = async (req, res, next) => {
   try {
     const { placeId } = req.params;
-    const place = await Place.findById(placeId);
+    const place = await Place.findById(placeId).populate(
+      "allowedBusiness placeAmmenities businessType"
+    );
     res.status(200).json(place);
   } catch (error) {
     next(error);
