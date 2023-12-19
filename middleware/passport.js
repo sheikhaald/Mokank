@@ -11,6 +11,7 @@ exports.localStrategy = new LocalStrategy(
   },
   async (username, password, done) => {
     try {
+      console.log("object");
       const user = await User.findOne({
         $or: [{ username: username }, { email: username }],
       });

@@ -103,7 +103,7 @@ exports.getOnePlace = async (req, res, next) => {
 
 exports.getAllPlaces = async (req, res, next) => {
   try {
-    const places = await Place.find();
+    const places = await Place.find().populate("businessType");
     res.status(200).json(places);
   } catch (error) {
     next(error);
