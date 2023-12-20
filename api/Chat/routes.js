@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { getAllMyChats, createChat, getChat } = require("./controllers");
+const {
+  getAllMyChats,
+  createChat,
+  getChat,
+  sendMsg,
+} = require("./controllers");
 const passport = require("passport");
-const msg = require("../../models/msg");
+const msg = require("../../models/Msg");
 
 router.get(
   "/myChats",
@@ -25,4 +30,10 @@ router.get(
 router.get("/test", async (req, res, next) => {
   return await msg.find();
 });
+
+router.post(
+  "/sendMsg/:chatId",
+  passport.authenticate("jwt", { session: false }),
+  sendMsg
+);
 module.exports = router;
