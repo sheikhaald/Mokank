@@ -15,9 +15,18 @@ const sponsorshipRouter = require("./api/Sponsorship/routes");
 const chatRouter = require("./api/Chat/routes");
 const path = require("path");
 const cors = require("cors");
+const http = require("http");
+const { Server } = require("socket.io");
 const morgan = require("morgan");
 require("dotenv").config();
+
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
 app.use(cors());
 app.use(morgan("dev"));
@@ -41,7 +50,18 @@ app.use(NotFound);
 // error handle
 app.use(ErrorHandler);
 // connect to database
+
+// SOCKET IO
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  socket.on("Chat", (msg) => {
+    console.log(msg);
+    io.emit("Chat", msg);
+  });
+});
+// END SOCKET
 connectDB();
-app.listen(process.env.PORT, () => {
+
+server.listen(process.env.PORT, () => {
   console.log(`App is running on localhost:${process.env.PORT}`);
 });
