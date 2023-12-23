@@ -7,10 +7,15 @@ exports.getAllMyChats = async (req, res, next) => {
   try {
     const user = await req.user.populate({
       path: "chats",
-      populate: {
-        path: "members",
-        populate: "user",
-      },
+      populate: [
+        {
+          path: "members",
+          populate: "user",
+        },
+        {
+          path: "msgs",
+        },
+      ],
     });
 
     const chats = user.chats;
