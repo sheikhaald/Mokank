@@ -8,6 +8,8 @@ const {
   getAllUsers,
   updateUser,
   getProfile,
+  register_token,
+  getMyNotification,
 } = require("./controllers");
 
 router.param("UserId", async (req, res, next, UserId) => {
@@ -29,5 +31,15 @@ router.get(
   getProfile
 );
 router.put("/UserId", updateUser);
+router.post(
+  "/register/token",
+  passport.authenticate("jwt", { session: false }),
+  register_token
+);
 
+router.get(
+  "/my-notifications",
+  passport.authenticate("jwt", { session: false }),
+  getMyNotification
+);
 module.exports = router;

@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
+const Notifications = require("../../models/Notifications");
 require("dotenv").config();
 
 const hashPassWord = async (password) => {
@@ -87,6 +88,40 @@ const login = async (req, res, next) => {
   }
 };
 
+const register_token = async (req, res, next) => {
+  try {
+    const { token } = req.body;
+
+    const user = await User.findById(req.user._id);
+    const found = user.notification_tokens.find(
+      (theToken) => theToken == token
+    );
+
+    if (found) {
+      return res.status(200).json({ message: "token found!" });
+    }
+
+    await user.updateOne({ $push: { notification_tokens: token } });
+
+    return res.status(201).json({ message: "token added!" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getMyNotification = async (req, res, next) => {
+  try {
+    console.log(req.user._id);
+    const notifications = await Notifications.find({
+      user: req.user._id,
+    });
+
+    res.status(200).json(notifications);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   login,
   updateUser,
@@ -95,4 +130,6 @@ module.exports = {
   generateToken,
   register,
   getProfile,
+  register_token,
+  getMyNotification,
 };

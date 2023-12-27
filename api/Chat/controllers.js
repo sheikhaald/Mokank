@@ -2,6 +2,7 @@ const Chat = require("../../models/Chat");
 const Member = require("../../models/Member");
 const User = require("../../models/User");
 const Msg = require("../../models/Msg");
+const { sendNotification } = require("../../utils/sendNotification");
 
 exports.getAllMyChats = async (req, res, next) => {
   try {
@@ -113,6 +114,19 @@ exports.sendMsg = async (req, res, next) => {
 
     const chat = await Chat.findByIdAndUpdate(req.params.chatId, {
       $push: { msgs: msg },
+    }).populate({
+      path: "members",
+      populate: "user",
+    });
+    const otherUser = chat.members.find((member) => {
+      return member.user._id.toString() != req.user._id.toString();
+    });
+
+    await sendNotification({
+      user: otherUser,
+      title: "user",
+      body: req.body.text,
+      from: req.user.username,
     });
 
     return res.status(201).json(msg);
