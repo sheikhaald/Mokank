@@ -18,6 +18,7 @@ const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
 const morgan = require("morgan");
+const { sendNotification } = require("./utils/sendNotification");
 require("dotenv").config();
 
 const app = express();
