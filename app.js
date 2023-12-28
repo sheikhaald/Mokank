@@ -13,6 +13,7 @@ const addonsRouter = require("./api/Addons/routes");
 const ammenities = require("./api/Ammenities/routes");
 const sponsorshipRouter = require("./api/Sponsorship/routes");
 const chatRouter = require("./api/Chat/routes");
+const notificationRouter = require("./api/Notifications/routes");
 const path = require("path");
 const cors = require("cors");
 const http = require("http");
@@ -45,6 +46,7 @@ app.use("/allowedBusiness", allowedBusiness);
 app.use("/businessType", businessType);
 app.use("/ammenities", ammenities);
 app.use("/chats", chatRouter);
+app.use("/notification", notificationRouter);
 
 // not found path
 app.use(NotFound);

@@ -20,7 +20,8 @@ exports.getAllNotifications = async (req, res, next) => {
 
 exports.deleteNotifications = async (req, res, next) => {
   try {
-    await req.notifications.deleteOne();
+    const { NotificationsId } = req.params;
+    await Notifications.findByIdAndDelete(NotificationsId);
     res.status(204).end();
   } catch (error) {
     next(error);

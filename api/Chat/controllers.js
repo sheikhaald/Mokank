@@ -126,7 +126,7 @@ exports.sendMsg = async (req, res, next) => {
       user: otherUser,
       title: "user",
       body: req.body.text,
-      from: req.user.username,
+      from: `New chat from ${req.user.username}`,
     });
 
     return res.status(201).json(msg);
